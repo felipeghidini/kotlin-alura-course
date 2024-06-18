@@ -1,5 +1,6 @@
 package com.alura.forum.services
 
+import com.alura.forum.dtos.AtualizacaoTopicoForm
 import com.alura.forum.dtos.NovoTopicoForm
 import com.alura.forum.dtos.TopicoView
 import com.alura.forum.mapper.TopicoFormMapper
@@ -32,6 +33,29 @@ class TopicoService(
         val topico = topicoFormMapper.map(novoTopicoForm);
         topico.id = topicos.size.toLong() + 1;
         topicos = topicos.plus((topico));
+    }
+
+    fun atualizar(atualizacaoTopicoForm: AtualizacaoTopicoForm) {
+        val topico = topicos.stream().filter { t ->
+            t.id == atualizacaoTopicoForm.id;
+        }.findFirst().get()
+        topicos = topicos.minus(topico).plus(Topico(
+            id = atualizacaoTopicoForm.id,
+            titulo = atualizacaoTopicoForm.titulo,
+            mensagem = atualizacaoTopicoForm.mensagem,
+            autor = topico.autor,
+            curso = topico.curso,
+            respostas = topico.respostas,
+            status = topico.status,
+            dataCriacao = topico.dataCriacao
+        ))
+    }
+
+    fun deletar(id: Long) {
+        val topico = topicos.stream().filter { t ->
+            t.id == id
+        }.findFirst().get()
+        topicos = topicos.minus(topico);
     }
 }
 
