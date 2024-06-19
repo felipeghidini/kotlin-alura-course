@@ -29,17 +29,18 @@ class TopicoService(
         return topicoViewMapper.map(topico);
     }
 
-    fun cadastrar(novoTopicoForm: NovoTopicoForm) {
+    fun cadastrar(novoTopicoForm: NovoTopicoForm): TopicoView {
         val topico = topicoFormMapper.map(novoTopicoForm);
         topico.id = topicos.size.toLong() + 1;
         topicos = topicos.plus((topico));
+        return topicoViewMapper.map(topico);
     }
 
-    fun atualizar(atualizacaoTopicoForm: AtualizacaoTopicoForm) {
+    fun atualizar(atualizacaoTopicoForm: AtualizacaoTopicoForm): TopicoView {
         val topico = topicos.stream().filter { t ->
             t.id == atualizacaoTopicoForm.id;
         }.findFirst().get()
-        topicos = topicos.minus(topico).plus(Topico(
+        val topicoAtualizado = Topico(
             id = atualizacaoTopicoForm.id,
             titulo = atualizacaoTopicoForm.titulo,
             mensagem = atualizacaoTopicoForm.mensagem,
@@ -48,7 +49,9 @@ class TopicoService(
             respostas = topico.respostas,
             status = topico.status,
             dataCriacao = topico.dataCriacao
-        ))
+        )
+        topicos = topicos.minus(topico).plus(topicoAtualizado);
+        return topicoViewMapper.map(topicoAtualizado);
     }
 
     fun deletar(id: Long) {
