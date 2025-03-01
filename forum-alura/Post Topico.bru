@@ -1,0 +1,20 @@
+meta {
+  name: Post Topico
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/topicos
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "titulo": "Duvida Java",
+    "mensagem": "Testes unitários",
+    "idCurso": 1,
+    "idAutor": 1
+  }
+}

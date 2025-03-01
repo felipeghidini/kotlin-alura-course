@@ -1,0 +1,19 @@
+meta {
+  name: Delete Topico
+  type: http
+  seq: 6
+}
+
+delete {
+  url: http://localhost:8080/topicos/11
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 2,
+    "titulo": "ALTERADO",
+    "mensagem": "ALTERADO"
+  }
+}

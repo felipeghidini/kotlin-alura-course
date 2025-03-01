@@ -7,6 +7,7 @@ import com.alura.forum.services.TopicoService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -34,6 +35,7 @@ class TopicoController(private val topicoService: TopicoService) {
     }
 
     @PostMapping()
+    @Transactional
     fun cadastrar(
             @RequestBody @Valid novoTopicoForm: NovoTopicoForm,
             uriBuilder: UriComponentsBuilder
@@ -44,6 +46,7 @@ class TopicoController(private val topicoService: TopicoService) {
     }
 
     @PutMapping()
+    @Transactional
     fun atualizar(@RequestBody @Valid atualizacaoTopicoForm: AtualizacaoTopicoForm): ResponseEntity<TopicoView> {
         val topicoView = topicoService.atualizar(atualizacaoTopicoForm);
         return ResponseEntity.ok(topicoView);
@@ -51,6 +54,7 @@ class TopicoController(private val topicoService: TopicoService) {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     fun delete(@PathVariable id: Long) {
         topicoService.deletar(id);
     }
